@@ -3,6 +3,5 @@ import react from '@vitejs/plugin-react'
 
 // 🔥 Replace 'your-repo-name' with the **actual GitHub repo name**
 export default defineConfig({
-  base: '/Credit-Cards/',
   plugins: [react()],
 })
