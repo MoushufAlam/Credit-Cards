@@ -33,10 +33,17 @@ function OtpVerifiction() {
     const handleSubmit = async () => {
         try {
             const response = await axios.post(
-                'https://otp-api-final-v2-2led60.5sc6y6-1.usa-e2.cloudhub.io/api/generateOTP',
+                'https://kotakcards-uat.kotak.com/api/apps/generateOTP',
                 {
                     mobileNumber: phoneNumber,
+                    notificationType: 'SMS',
                 },
+                {
+                    headers: {
+                        'x-traceid': '64f0d7bccf9a4b67',
+                        'x-transactionid': '691baa88229b4a67'
+                    }
+                }
             )
             console.log(response.data);
 
@@ -48,9 +55,9 @@ function OtpVerifiction() {
     const handleVerify = async () => {
         try {
             const response = await axios.post(
-                'https://otp-api-final-v2-2led60.5sc6y6-1.usa-e2.cloudhub.io/api/validateOTP',
+                'https://otp-api-proxy-5h0hm3.5sc6y6-4.usa-e2.cloudhub.io/otp/validate',
                 {
-                    mobNo: phoneNumber,
+                    mobileNumber: phoneNumber,
                     otp: otp,
                 }
             )

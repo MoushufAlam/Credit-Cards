@@ -19,12 +19,10 @@ function Signup() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post(
-                'https://otp-api-final-v2-2led60.5sc6y6-1.usa-e2.cloudhub.io/api/generateOTP',
-                {
-                    mobNo: phone,
-                },
-            )
+            const response = await axios.post('/.netlify/functions/sendOTP', {
+                phone
+            });
+            
             navigate('/otp-verification', {
                 state: {
                     phoneNumber: phone,
