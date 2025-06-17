@@ -33,7 +33,7 @@ function OtpVerifiction() {
     const handleSubmit = async () => {
         try {
             const response = await axios.post('/.netlify/functions/sendOTP', {
-                phoneNumber
+                phone: phoneNumber
             });
             console.log(response.data);
 
