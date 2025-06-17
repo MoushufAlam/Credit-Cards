@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import gradients from './gradients.json'
 import { useNavigate } from 'react-router-dom'
 
@@ -21,7 +20,6 @@ type Props = {
 
 function Cards({ data } :Props) {
   const navigate = useNavigate();
-  const [activeName , setActiveName] = useState<string>('')
   return (
     <>
       {data.map((card :CardType, index:number) => (
@@ -44,7 +42,6 @@ function Cards({ data } :Props) {
               <div className="d-flex gap-3 mt-4">
                 <button className="btn btn-danger" onClick={()=> {
                   navigate('/signup ', { state: { activeName: card.images } })
-                  setActiveName(card?.images || '')
                   }}>Apply Now</button>
                 <button className="btn btn-outline-secondary">Add To Compare</button>
               </div>

@@ -1,4 +1,3 @@
-import React from 'react'
 import logo from '../../public/assets/logo.svg'
 import logoName from '../../public/assets/logoName.png'
 function Header() {

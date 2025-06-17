@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import logo from '../public/assets/logo.svg'
 import Buttons from './components/Buttons'
 import Cards from './components/Cards'
 
@@ -18,7 +17,6 @@ type CardType = {
 }
 
 function App() {
-  const [ActiveName, setActiveName] = useState<string>('')
   const [Active, setActive] = useState<string>('All Cards')
   const [allCards, setAllCards] = useState<CardType[]>([])
 
