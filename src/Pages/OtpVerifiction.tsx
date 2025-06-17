@@ -8,7 +8,7 @@ import { CgDanger } from 'react-icons/cg';
 function OtpVerifiction() {
     const navigate = useNavigate()
     const { state } = useLocation();
-    const { phoneNumber, activeName } = (state as { phoneNumber?: string; activeName?: string }) || {}
+    const { phoneNumber, activeName } = (state as { phoneNumber: string; activeName: string }) || {}
     const hiddenPhoneNumber = phoneNumber?.replace(/^(\d{2})\d{4}(\d{4})$/, '$1****$2')
 
     const [otp, setOtp] = useState<string>('')
