@@ -32,19 +32,9 @@ function OtpVerifiction() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post(
-                'https://kotakcards-uat.kotak.com/api/apps/generateOTP',
-                {
-                    mobileNumber: phoneNumber,
-                    notificationType: 'SMS',
-                },
-                {
-                    headers: {
-                        'x-traceid': '64f0d7bccf9a4b67',
-                        'x-transactionid': '691baa88229b4a67'
-                    }
-                }
-            )
+            const response = await axios.post('/.netlify/functions/sendOTP', {
+                phoneNumber
+            });
             console.log(response.data);
 
         } catch (error) {
