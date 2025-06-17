@@ -1,0 +1,96 @@
+[
+    {
+        "id": 1,
+        "title": "Black",
+        "features": [
+            {
+                "icon": "/assets/star.svg",
+                "text": "Rewards Program"
+            },
+            {
+                "icon": "/assets/star.svg",
+                "text": "Lounge Access"
+            },
+            {
+                "icon": "/assets/star.svg",
+                "text": "Priority Pass"
+            }
+        ],
+        "category": [
+            "Premium"
+        ],
+        "images": "/assets/white.png"
+    },
+    {
+        "id": 2,
+        "title": "Blue",
+        "features": [
+            {
+                "icon": "/assets/reward.svg",
+                "text": "8 Lounge access"
+            },
+            {
+                "icon": "/assets/ticket.svg",
+                "text": "Quarterly Milestone"
+            }
+        ],
+        "category": [
+            "Fuel",
+            "Online Benefits"
+        ],
+        "images": "/assets/Blue.png"
+    },
+    {
+        "id": 3,
+        "title": "Yang",
+        "features": [
+            {
+                "icon": "/assets/star.svg",
+                "text": "Milestones"
+            },
+            {
+                "icon": "/assets/ticket.svg",
+                "text": "International & Domestic Lounge"
+            },
+            {
+                "icon": "/assets/gift.svg",
+                "text": "Earn up to 10 Zen Points for Zen"
+            }
+        ],
+        "category": [
+            "Travel Benefits",
+            "Accelerated Rewards",
+            "Fuel"
+        ],
+        "images": "/assets/yang.png"
+    },
+    {
+        "id": 4,
+        "title": "TravelPlus",
+        "features": [
+            {
+                "icon": "/assets/gift.svg",
+                "text": "Airport Lounge"
+            },
+            {
+                "icon": "/assets/reward.svg",
+                "text": "Travel Insurance"
+            }
+        ],
+        "category": [
+            "Travel Benefits"
+        ],
+        "images": "/assets/idk.png"
+    },
+    {
+        "id": 5,
+        "title": "KTM 888",
+        "features": [],
+        "category": [
+            "Movie Benefits",
+            "Online Benefits",
+            "Fuel"
+        ],
+        "images": "/assets/KTK888.png"
+    }
+]
