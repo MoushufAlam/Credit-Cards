@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { isValidOtp } from '../utils/ValidateOtp';
 import { MdKeyboardArrowLeft, MdOutlineReportGmailerrorred } from 'react-icons/md';
-import axios from 'axios';
 import { CgDanger } from 'react-icons/cg';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import axios from 'axios';
 
 function OtpVerifiction() {
     const navigate = useNavigate()
@@ -16,6 +17,7 @@ function OtpVerifiction() {
     const [timer, setTimer] = useState<number>(30)
     const [failedAttempts, setFailedAttempts] = useState<number>(0);
     const [attemptError, setAttemptError] = useState<boolean>(true);
+    const [showOtp, setShowOtp] = useState<boolean>(false)
 
     useEffect(() => {
         if (timer > 0) {
@@ -112,10 +114,11 @@ function OtpVerifiction() {
                         <h1 className="h2 mt-3 fw-bolder">Verify your mobile number</h1>
                         <p className='text-muted'>We have sent an SMS with a 6-digit OTP to {hiddenPhoneNumber}</p>
                     </div>
-                    <div className="form-floating mb-3 w-100 mt-3">
+
+                    <div className="form-floating mb-3 w-100 mt-3 position-relative">
                         <input
-                            type="password"
-                            className="form-control"
+                            type={showOtp ? "text" : "password"}
+                            className="form-control pe-5"
                             id="floatingInput"
                             name="otp"
                             placeholder="Enter OTP"
@@ -133,7 +136,15 @@ function OtpVerifiction() {
                             required
                         />
                         <label htmlFor="floatingInput">OTP</label>
+                        <span
+                            className="position-absolute top-50 end-0 translate-middle-y me-3"
+                            style={{ cursor: 'pointer', zIndex: 10 }}
+                            onClick={() => setShowOtp(prev => !prev)}
+                        >
+                            {showOtp ? <FaEyeSlash /> : <FaEye />}
+                        </span>
                     </div>
+
                     {timer > 0 ? (
                         <div className="d-flex justify-content-end w-100 mb-2">
                             <span className="small text-muted">
