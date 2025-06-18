@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { isValidPhoneNumber } from '../utils/ValidateNumber'
 import { MdOutlineReportGmailerrorred, MdKeyboardArrowLeft } from "react-icons/md";
@@ -17,12 +17,17 @@ function Signup() {
     const [checked2, setChecked2] = useState<boolean>(false)
     const [phone, setPhone] = useState<string>('')
 
+    useEffect(() => {
+        const input = document.getElementById('floatingInput');
+        input?.focus();
+    }, []);
+
     const handleSubmit = async () => {
         try {
             const response = await axios.post('/.netlify/functions/sendOTP', {
                 phone
             });
-            
+
             navigate('/otp-verification', {
                 state: {
                     phoneNumber: phone,
