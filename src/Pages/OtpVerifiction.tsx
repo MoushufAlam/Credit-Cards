@@ -102,6 +102,7 @@ function OtpVerifiction() {
                             maxLength={6}
                             inputMode="numeric"
                             autoComplete='one-time-code'
+                            style={{ WebkitTextSecurity: showOtp ? 'none' : 'disc' } as any}
                             value={otp}
                             onChange={(e) => {
                                 const numbersOnly = e.target.value.replace(/\D/g, '')
