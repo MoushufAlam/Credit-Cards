@@ -114,7 +114,7 @@ function OtpVerifiction() {
                     </div>
                     <div className="form-floating mb-3 w-100 mt-3">
                         <input
-                            type="text"
+                            type="password"
                             className="form-control"
                             id="floatingInput"
                             name="otp"
