@@ -104,10 +104,11 @@ function OtpVerifiction() {
                             className="form-control"
                             id="floatingInput"
                             placeholder="Enter mobile number"
-                            pattern="[0-9]{6}"
+                            pattern="\d{6}"
                             maxLength={6}
                             value={otp}
                             inputMode="text"
+                            autoComplete='one-time-code'
                             onChange={(e) => {
                                 const numbersOnly = e.target.value.replace(/\D/g, '')
                                 setOtp(numbersOnly)
