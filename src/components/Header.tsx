@@ -1,16 +1,11 @@
 import logo from '../../public/assets/logo.svg'
 import logoName from '../../public/assets/logoName.png'
+
 function Header() {
     return (
-        <div className="container-xxl fixed-top pt-0 pe-4 ps-5 pb-2 bg-white w-100" style={{ zIndex: 1 }}>
-            <div className='container-fixed mb-2'>
-                <img src={logo} alt="logo" style={{
-                    maxWidth:'50px'
-                }}/>
-                <img src={logoName} alt="logoName"  style={{
-                    maxWidth:'100px'
-                }}/>
-            </div>
+        <div className="w-100 bg-white fixed-top d-flex align-items-center px-5 py-0" style={{ zIndex: 1 }}>
+            <img src={logo} alt="logo" style={{ height: '30px' }} />
+            <img src={logoName} alt="logoName" className="ms-2" style={{ height: '62px' }} />
         </div>
     )
 }

@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className='container-lg'>
-      <div className='d-flex flex-row flex-nowrap overflow-auto fixed-top p-4 bg-white justify-content-start justify-content-md-center gap-2 w-100'
+      <div className='d-flex flex-row flex-nowrap overflow-auto fixed-top p-2 bg-white justify-content-start justify-content-md-center gap-2 w-100'
       style={{
         marginTop:'75px'
       }}>

@@ -47,21 +47,22 @@ export default function Profile() {
   const allFilled = pan && dob && email && gender
 
   return (
-    <div className="container d-flex align-items-center w-100 justify-content-center bg-light min-vh-100 pt-5 mt-5" style={{ minHeight: 'calc(100vh - 3rem)' }}>
-      <div className="col-12 col-md-8 col-lg-6 bg-white p-5 rounded d-flex flex-column position-relative" style={{ maxHeight: '90vh' }}>
-        <form className="overflow-auto p-2" style={{ maxHeight: 'calc(90vh - 80px)' }} onSubmit={handleSubmit(onSubmit)}>
+    <div className="position-fixed container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100" style={{ minHeight: 'calc(100vh - 3rem)' }}>
+      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column position-fixed" style={{ maxHeight: '90vh' }}>
+        <form className="overflow-auto p-4 m-4" style={{ maxHeight: 'calc(90vh - 80px)', maxWidth: '400px' }} onSubmit={handleSubmit(onSubmit)}>
 
           <div className="text-center mb-4">
-            <h1 className="h2 fw-bolder">Please enter your personal details</h1>
+            <h1 className="h2 fw-semibold fs-3 p-2">Provide your personal details</h1>
           </div>
 
-          <div className="form-floating mb-3 w-100 position-relative">
+          <div className={`form-floating ${errors.pan ? 'mb-0' : 'mb-3'} w-100 position-relative`}>
             <input
               id="pan"
               type={showPan ? 'text' : 'password'}
-              className="form-control"
+              className="form-control border"
               placeholder="ABCDE1234F"
               maxLength={10}
+              style={{ boxShadow: 'none' }}
               {...register('pan', {
                 required: true,
                 pattern: /^[A-Z]{5}[0-9]{4}[A-Z]$/
@@ -81,21 +82,22 @@ export default function Profile() {
             </span>
           </div>
           {errors.pan && (
-            <div className="card bg-light p-1 border rounded w-100 mb-3">
+            <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
               <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color="red" />
-                <span>Please enter a valid PAN</span>
+                <MdOutlineReportGmailerrorred className="me-2" color='red' />
+                <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter a valid PAN</small>
               </div>
             </div>
           )}
 
-          <div className="form-floating mb-3 w-100">
+          <div className={`form-floating ${errors.dob ? 'mb-0' : 'mb-3'} w-100`}>
             <input
               id="dob"
               type="text"
-              className="form-control"
+              className="form-control border"
               placeholder="DD-MM-YYYY"
               maxLength={10}
+              style={{ boxShadow: 'none' }}
               {...register('dob', {
                 required: true,
                 pattern: /^\d{2}-\d{2}-\d{4}$/
@@ -105,20 +107,21 @@ export default function Profile() {
             <label htmlFor="dob">Date of Birth</label>
           </div>
           {errors.dob && (
-            <div className="card bg-light p-1 border rounded w-100 mb-3">
+            <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
               <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color="red" />
-                <span>Please enter DOB</span>
+                <MdOutlineReportGmailerrorred className="me-2" color='red' />
+                <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter DOB</small>
               </div>
             </div>
           )}
 
-          <div className="form-floating mb-3 w-100">
+          <div className={`form-floating ${errors.email ? 'mb-0' : 'mb-3'} w-100`}>
             <input
               id="email"
               type="email"
-              className="form-control"
+              className="form-control border"
               placeholder="you@example.com"
+              style={{ boxShadow: 'none' }}
               {...register('email', {
                 required: true,
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -131,22 +134,28 @@ export default function Profile() {
             <label htmlFor="email">Email</label>
           </div>
           {errors.email && (
-            <div className="card bg-light p-1 border rounded w-100 mb-3">
+            <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
               <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color="red" />
-                <span>Please enter a valid email</span>
+                <MdOutlineReportGmailerrorred className="me-2" color='red' />
+                <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter a valid email</small>
               </div>
             </div>
           )}
 
           <div className="mb-3">
-            <label className="form-label fw-semibold">Gender</label>
-            <div className="d-flex gap-3">
+            <label className="form-label fs-5">Gender</label>
+            <div className="d-flex justify-content-between gap-2">
               {['Male', 'Female', 'Transgender'].map(opt => (
                 <button
                   key={opt}
                   type="button"
-                  className={`btn ${gender === opt ? 'btn-outline-primary' : 'btn-outline-secondary'}`}
+className={`btn ${gender === opt ? 'btn-outline-primary' : 'border text-dark bg-white'}`}
+                  style={{
+                    width: '120px',
+                    height: '54px',
+                    fontSize: '0.85rem',
+                    padding: '6px 4px',
+                  }}
                   onClick={() => setGender(opt)}
                 >
                   {opt}
@@ -154,20 +163,18 @@ export default function Profile() {
               ))}
             </div>
           </div>
+
         </form>
 
-        <div className="position-sticky bottom-0 bg-white pt-3 border-top rounded-bottom">
-          <div className="d-flex justify-content-between align-items-center">
-            <button className="btn text-muted" onClick={() => navigate('/')}>
-              <MdKeyboardArrowLeft /> Back
-            </button>
-            <div className="position-absolute start-50 translate-middle-x">
+        <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom">
+          <div className="d-flex justify-content-center align-items-center">
+            <div>
               <button
                 className="btn btn-danger"
                 onClick={handleSubmit(onSubmit)}
                 disabled={!(allFilled && isValid)}
               >
-                Submit
+                Proceed
               </button>
             </div>
           </div>
