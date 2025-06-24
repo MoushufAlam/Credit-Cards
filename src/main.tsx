@@ -7,6 +7,7 @@ import Signup from './Pages/Signup.tsx';
 import Layout from './components/Layout.tsx';
 import OtpVerifiction from './Pages/OtpVerifiction.tsx';
 import Comparison from './Pages/Comparison.tsx';
+import Profile from './Pages/Profile.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="signup" element={<Signup />} />
         <Route path="otp-verification" element={<OtpVerifiction />} />
         <Route path="compare" element={<Comparison />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
     </Routes>
   </BrowserRouter>

@@ -69,22 +69,22 @@ function OtpVerifiction() {
         }
     }
 
-    const handleVerify = async () => {
-        try {
-            const response = await axios.post(
-                'https://otp-api-proxy-5h0hm3.5sc6y6-4.usa-e2.cloudhub.io/otp/validate',
-                {
-                    mobileNumber: phoneNumber,
-                    otp: otp,
-                }
-            )
-            console.log(response.data)
-        } catch (error) {
-            setAttemptError(false);
-            setFailedAttempts(prev => prev + 1)
-            console.log("Error is:", error);
-        }
-    }
+    // const handleVerify = async () => {
+    //     try {
+    //         const response = await axios.post(
+    //             'https://otp-api-proxy-5h0hm3.5sc6y6-4.usa-e2.cloudhub.io/otp/validate',
+    //             {
+    //                 mobileNumber: phoneNumber,
+    //                 otp: otp,
+    //             }
+    //         )
+    //         console.log(response.data)
+    //     } catch (error) {
+    //         setAttemptError(false);
+    //         setFailedAttempts(prev => prev + 1)
+    //         console.log("Error is:", error);
+    //     }
+    // }
 
     return (
         <div className="container d-flex align-items-center w-100 justify-content-center bg-light min-vh-100 pt-5 mt-5" style={{ minHeight: 'calc(100vh - 3rem)' }}>
@@ -188,7 +188,7 @@ function OtpVerifiction() {
                                     Restart Process
                                 </button>
                             ) : (
-                                <button className='btn btn-danger' disabled={otp.length !== 6} onClick={handleVerify}>
+                                <button className='btn btn-danger' disabled={otp.length !== 6} onClick={()=> navigate('/profile')}>
                                     Verify
                                 </button>
                             )}
