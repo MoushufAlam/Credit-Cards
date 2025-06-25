@@ -19,27 +19,29 @@ function OtpVerifiction() {
   const [attemptError, setAttemptError] = useState<boolean>(true)
   const [showOtp, setShowOtp] = useState<boolean>(false)
 
-  const handleOtpVerify = async () => {
-    if (otp.length !== 6 || !isValidOtp(otp)) {
-      setIsValid(false)
-      return
-    }
+  // const handleOtpVerify = async () => {
+  //   if (otp.length !== 6 || !isValidOtp(otp)) {
+  //     setIsValid(false)
+  //     return
+  //   }
 
-    try {
-      const response = await axios.post('', {
-        phone: phoneNumber,
-        otp: otp
-      })
-      console.log('OTP Verified:', response.data)
-      navigate('/profile')
-    } catch (error) {
-      console.error('OTP validation failed:', error)
-      setAttemptError(false)
-      setFailedAttempts(prev => prev + 1)
-    }
-  }
-  console.log(handleOtpVerify);
+  //   try {
+  //     const response = await axios.post('', {
+  //       phone: phoneNumber,
+  //       otp: otp
+  //     })
+  //     console.log('OTP Verified:', response.data)
+  //     navigate('/profile')
+  //   } catch (error) {
+  //     console.error('OTP validation failed:', error)
+  //     setAttemptError(false)
+  //     setFailedAttempts(prev => prev + 1)
+  //   }
+  // }
+  // console.log(handleOtpVerify);
   
+  console.log(setFailedAttempts);
+
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {

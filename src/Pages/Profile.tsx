@@ -48,7 +48,7 @@ export default function Profile() {
   const handleEmailBlur = async () => {
     if (errors.email) return
     try {
-      const response = await axios.post('/.netlify/functions/validateEmailOTP', { email: email, otp: otp })
+      const response = await axios.post('/.netlify/functions/sendEmailOTP', { email: email})
       setEmailVerified(true)
       console.log(response.data);
       clearErrors('email')
@@ -60,7 +60,7 @@ export default function Profile() {
 
   const handleOtpValidation = async () => {
     try {
-      const response = await axios.post('https://pan-api-final-2led60.5sc6y6-2.usa-e2.cloudhub.io/api/otp/email/validate', { email, otp })
+      const response = await axios.post('/.netlify/functions/validateEmailOTP', { email:email, otp:otp })
       console.log(response.data);
       return true
     } catch {
