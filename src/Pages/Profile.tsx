@@ -91,9 +91,10 @@ export default function Profile() {
   const allFilled = pan && dob && email && gender && (!emailVerified || otp)
 
   return (
-    <div className="position-fixed container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100" style={{ minHeight: 'calc(100vh - 3rem)' }}>
-      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column position-fixed" style={{ maxHeight: '90vh' }}>
-        <form className="overflow-auto p-4 m-4" style={{ maxHeight: 'calc(90vh - 80px)', maxWidth: '400px' }} onSubmit={handleSubmit(onSubmit)}>
+    <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
+      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
+        
+        <form className="overflow-auto p-4 m-4" style={{ maxHeight: 'calc(90vh - 100px)', maxWidth: '400px' }} onSubmit={handleSubmit(onSubmit)}>
 
           <div className="text-center mb-4">
             <h1 className="h2 fw-semibold fs-3 p-2">Provide your personal details</h1>
@@ -267,7 +268,7 @@ export default function Profile() {
 
         </form>
 
-        <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom">
+        <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom w-100">
           <div className="d-flex justify-content-center align-items-center">
             <div>
               <button
@@ -280,6 +281,7 @@ export default function Profile() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   )

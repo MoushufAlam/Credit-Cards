@@ -19,29 +19,6 @@ function OtpVerifiction() {
   const [attemptError, setAttemptError] = useState<boolean>(true)
   const [showOtp, setShowOtp] = useState<boolean>(false)
 
-  // const handleOtpVerify = async () => {
-  //   if (otp.length !== 6 || !isValidOtp(otp)) {
-  //     setIsValid(false)
-  //     return
-  //   }
-
-  //   try {
-  //     const response = await axios.post('', {
-  //       phone: phoneNumber,
-  //       otp: otp
-  //     })
-  //     console.log('OTP Verified:', response.data)
-  //     navigate('/profile')
-  //   } catch (error) {
-  //     console.error('OTP validation failed:', error)
-  //     setAttemptError(false)
-  //     setFailedAttempts(prev => prev + 1)
-  //   }
-  // }
-  // console.log(handleOtpVerify);
-  
-  console.log(setFailedAttempts);
-
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
@@ -93,8 +70,9 @@ function OtpVerifiction() {
   }
 
   return (
-    <div className="position-fixed container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100" style={{ minHeight: 'calc(100vh - 3rem)' }}>
-      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column position-fixed" style={{ maxHeight: '90vh' }}>
+    <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
+      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
+
         {failedAttempts >= 3 && (
           <div className="position-absolute top-0 start-0 w-100 h-100 row m-0 align-items-center p-5 justify-content-center" style={{ zIndex: 1, pointerEvents: 'none' }}>
             <div className="bg-light row align-items-center rounded p-2">
@@ -110,7 +88,7 @@ function OtpVerifiction() {
         <form
           className="overflow-auto p-4 m-4"
           style={{
-            maxHeight: 'calc(90vh - 80px)',
+            maxHeight: 'calc(90vh - 100px)',
             maxWidth: '400px',
             filter: failedAttempts >= 3 ? 'blur(4px)' : 'none',
             pointerEvents: failedAttempts >= 3 ? 'none' : 'auto',
@@ -121,7 +99,7 @@ function OtpVerifiction() {
           <div className="text-center mb-4">
             <img src={activeName} alt="" className="img-fluid rounded shadow" style={{ maxWidth: '200px', height: 'auto' }} />
             <h1 className="h2 mt-3 fw-semibold fs-3">Verify your mobile number</h1>
-            <small className="text-muted" >We have sent an SMS with a 6-digit OTP to {hiddenPhoneNumber}</small>
+            <small className="text-muted">We have sent an SMS with a 6-digit OTP to {hiddenPhoneNumber}</small>
           </div>
 
           <div className={`form-floating ${(!isValid || !attemptError) ? 'mb-0' : 'mb-3'} w-100 position-relative`}>
@@ -168,10 +146,12 @@ function OtpVerifiction() {
 
           {timer > 0 ? (
             <div className="d-flex justify-content-end w-100 mb-2">
-              <small className="text-muted" style={{ fontSize: '0.8rem', color: '#555' }}>You can request the OTP via other medium in {timer} sec(s)</small>
+              <small className="text-muted" style={{ fontSize: '0.8rem', color: '#555' }}>
+                You can request the OTP via other medium in {timer} sec(s)
+              </small>
             </div>
           ) : (
-            <div className="d-flex justify-content-end w-100 mb-2" >
+            <div className="d-flex justify-content-end w-100 mb-2">
               <small className="text-muted">Resend OTP via&nbsp;</small>
               <span className="text-primary" role="button" onClick={() => {
                 setTimer(30)
@@ -181,9 +161,9 @@ function OtpVerifiction() {
           )}
         </form>
 
-        <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom">
+        <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom w-100">
           <div className="d-flex justify-content-between align-items-center">
-            <div className='start-0'>
+            <div>
               <button className="btn text-muted" onClick={() => navigate('/')}>
                 <MdKeyboardArrowLeft /> Back
               </button>
@@ -197,6 +177,7 @@ function OtpVerifiction() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   )
