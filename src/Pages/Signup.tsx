@@ -41,7 +41,7 @@ function Signup() {
 
     return (
         <div className="position-fixed container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100" style={{ minHeight: 'calc(100vh - 3rem)' }}>
-            <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column position-fixed" style={{ maxHeight: '90vh' }}>
+            <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
                 <div className="overflow-auto p-4 m-4" style={{ maxHeight: 'calc(90vh - 80px)', maxWidth: '400px' }}>
                     <div className="text-center">
                         <img
