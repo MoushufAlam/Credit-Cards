@@ -1,26 +1,36 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { MdKeyboardArrowLeft, MdOutlineReportGmailerrorred } from 'react-icons/md'
+import axios from 'axios'
+import { MdOutlineReportGmailerrorred } from 'react-icons/md'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
+interface FormData {
+  pan: string
+  dob: string
+  email: string
+  otp?: string
+}
+
 export default function Profile() {
-  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     clearErrors,
+    setError,
     formState: { errors, isValid }
-  } = useForm({ mode: 'onBlur' })
+  } = useForm<FormData>({ mode: 'onBlur' })
 
   const [showPan, setShowPan] = useState(false)
+  const [showOtp, setShowOtp] = useState(false)
   const [gender, setGender] = useState('')
+  const [emailVerified, setEmailVerified] = useState(false)
 
   const pan = watch('pan') || ''
   const dob = watch('dob') || ''
   const email = watch('email') || ''
+  const otp = watch('otp') || ''
 
   useEffect(() => {
     document.getElementById('pan')?.focus()
@@ -28,23 +38,46 @@ export default function Profile() {
 
   const handleDobChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let v = e.target.value.replace(/\D/g, '')
-    if (v.length <= 2) {
-      v = v
-    } else if (v.length <= 4) {
-      v = v.slice(0, 2) + '-' + v.slice(2)
-    } else {
-      v = v.slice(0, 2) + '-' + v.slice(2, 4) + '-' + v.slice(4, 8)
-    }
+    if (v.length <= 2) v = v
+    else if (v.length <= 4) v = v.slice(0, 2) + '-' + v.slice(2)
+    else v = v.slice(0, 2) + '-' + v.slice(2, 4) + '-' + v.slice(4, 8)
     setValue('dob', v)
     if (errors.dob) clearErrors('dob')
   }
 
-  const onSubmit = (data: any) => {
-    if (!gender) return
+  const handleEmailBlur = async () => {
+    if (errors.email) return
+    try {
+      const response = await axios.post('/.netlify/functions/validateEmailOTP', { email: email, otp: otp })
+      setEmailVerified(true)
+      console.log(response.data);
+      clearErrors('email')
+    } catch {
+      setEmailVerified(false)
+      setError('email', { type: 'manual' })
+    }
+  }
+
+  const handleOtpValidation = async () => {
+    try {
+      const response = await axios.post('https://pan-api-final-2led60.5sc6y6-2.usa-e2.cloudhub.io/api/otp/email/validate', { email, otp })
+      console.log(response.data);
+      return true
+    } catch {
+      setError('otp', { type: 'manual' })
+      return false
+    }
+  }
+
+  const onSubmit = async (data: FormData) => {
+    if (emailVerified) {
+      const valid = await handleOtpValidation()
+      if (!valid) return
+    }
     console.log({ ...data, gender })
   }
 
-  const allFilled = pan && dob && email && gender
+  const allFilled = pan && dob && email && gender && (!emailVerified || otp)
 
   return (
     <div className="position-fixed container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100" style={{ minHeight: 'calc(100vh - 3rem)' }}>
@@ -129,7 +162,9 @@ export default function Profile() {
               onChange={e => {
                 setValue('email', e.target.value)
                 if (errors.email) clearErrors('email')
+                setEmailVerified(false)
               }}
+              onBlur={handleEmailBlur}
             />
             <label htmlFor="email">Email</label>
           </div>
@@ -142,6 +177,45 @@ export default function Profile() {
             </div>
           )}
 
+          {emailVerified && (
+            <div className={`form-floating ${errors.otp ? 'mb-0' : 'mb-3'} w-100 position-relative`}>
+              <input
+                id="otp"
+                type={showOtp ? 'text' : 'password'}
+                inputMode="numeric"
+                className="form-control border"
+                placeholder="OTP"
+                maxLength={6}
+                style={{ boxShadow: 'none' }}
+                {...register('otp', {
+                  required: true,
+                  pattern: /^\d{6}$/
+                })}
+                onChange={e => {
+                  const numbersOnly = e.target.value.replace(/\D/g, '')
+                  setValue('otp', numbersOnly)
+                  if (errors.otp) clearErrors('otp')
+                }}
+              />
+              <label htmlFor="otp">OTP</label>
+              <span
+                className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
+                role="button"
+                onClick={() => setShowOtp(v => !v)}
+              >
+                {showOtp ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+          )}
+          {emailVerified && errors.otp && (
+            <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
+              <div className="d-flex align-items-center">
+                <MdOutlineReportGmailerrorred className="me-2" color='red' />
+                <small style={{ fontSize: '0.8rem', color: '#555' }}>Enter valid OTP</small>
+              </div>
+            </div>
+          )}
+
           <div className="mb-3">
             <label className="form-label fs-5">Gender</label>
             <div className="d-flex justify-content-between gap-2">
@@ -149,13 +223,8 @@ export default function Profile() {
                 <button
                   key={opt}
                   type="button"
-className={`btn ${gender === opt ? 'btn-outline-primary' : 'border text-dark bg-white'}`}
-                  style={{
-                    width: '120px',
-                    height: '54px',
-                    fontSize: '0.85rem',
-                    padding: '6px 4px',
-                  }}
+                  className={`btn ${gender === opt ? 'btn-outline-primary' : 'border text-dark bg-white'}`}
+                  style={{ width: '120px', height: '54px', fontSize: '0.85rem', padding: '6px 4px' }}
                   onClick={() => setGender(opt)}
                 >
                   {opt}

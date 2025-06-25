@@ -1,32 +1,30 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { isValidPhoneNumber } from '../utils/ValidateNumber'
-import { MdOutlineReportGmailerrorred, MdKeyboardArrowLeft } from "react-icons/md";
-import axios from 'axios';
+import { MdOutlineReportGmailerrorred, MdKeyboardArrowLeft } from "react-icons/md"
+import axios from 'axios'
 
 function Signup() {
-    const navigate = useNavigate();
-    const handleError = () => {
-        setIsValid(isValidPhoneNumber(phone))
-    }
-    const [isValid, setIsValid] = useState<boolean>(true)
+    const navigate = useNavigate()
+    const handleError = () => setIsValid(isValidPhoneNumber(phone))
+    const [isValid, setIsValid] = useState(true)
     const { state } = useLocation()
     const { activeName } = (state as { activeName?: string }) || {}
 
-    const [checked1, setChecked1] = useState<boolean>(false)
-    const [checked2, setChecked2] = useState<boolean>(false)
-    const [phone, setPhone] = useState<string>('')
+    const [checked1, setChecked1] = useState(false)
+    const [checked2, setChecked2] = useState(false)
+    const [phone, setPhone] = useState('')
 
     useEffect(() => {
-        const input = document.getElementById('floatingInput');
-        input?.focus();
-    }, []);
+        const input = document.getElementById('floatingInput')
+        input?.focus()
+    }, [])
 
     const handleSubmit = async () => {
         try {
             const response = await axios.post('/.netlify/functions/sendOTP', {
                 phone
-            });
+            })
 
             navigate('/otp-verification', {
                 state: {
@@ -34,16 +32,17 @@ function Signup() {
                     activeName: activeName
                 }
             })
+
             console.log(response.data)
         } catch (error) {
-            console.log("Error is:", error);
+            console.log("Error is:", error)
         }
     }
 
     return (
-        <div className="container d-flex align-items-center w-100 justify-content-center bg-light min-vh-100 pt-5 mt-5" style={{ minHeight: 'calc(100vh - 3rem)' }}>
-            <div className="col-12 col-md-8 col-lg-6 bg-white p-5 rounded d-flex flex-column position-relative" style={{ maxHeight: '90vh' }}>
-                <div className="overflow-auto p-2" style={{ maxHeight: 'calc(90vh - 80px)' }}>
+        <div className="position-fixed container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100" style={{ minHeight: 'calc(100vh - 3rem)' }}>
+            <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column position-fixed" style={{ maxHeight: '90vh' }}>
+                <div className="overflow-auto p-4 m-4" style={{ maxHeight: 'calc(90vh - 80px)', maxWidth: '400px' }}>
                     <div className="text-center">
                         <img
                             src={activeName}
@@ -51,10 +50,10 @@ function Signup() {
                             className="img-fluid rounded shadow"
                             style={{ maxWidth: '200px', height: 'auto' }}
                         />
-                        <h1 className="h2 mt-3 fw-bolder">Please provide your mobile number</h1>
+                        <h1 className="h2 mt-3 fw-semibold fs-3 p-2">Please provide your mobile number</h1>
                     </div>
 
-                    <div className="form-floating mb-3 w-100 mt-3">
+                    <div className={`form-floating ${!isValid ? 'mb-0' : 'mb-3'} w-100`}>
                         <input
                             type="text"
                             className="form-control"
@@ -69,20 +68,23 @@ function Signup() {
                                 setPhone(numbersOnly)
                                 setIsValid(true)
                             }}
+                            style={{ boxShadow: 'none' , outline:'none'}}
                             onBlur={handleError}
                             required
                         />
                         <label htmlFor="floatingInput">Enter 10 digit Mobile Number</label>
                     </div>
+
                     {!isValid && (
-                        <div className="card bg-light p-1 border rounded w-100 mb-3">
+                        <div className="card bg-light p-1 border-0 rounded w-100 mb-3">
                             <div className="d-flex align-items-center">
                                 <MdOutlineReportGmailerrorred className="me-2" color='red' />
-                                <span>Please enter a valid phone number</span>
+                                <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter a valid phone number</small>
                             </div>
                         </div>
                     )}
-                    <div className={`form-check align-self-start text-start mb-2 ${checked1 ? '' : 'text-muted'}`}>
+
+                    <div className="form-check align-self-start text-start mb-2">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -90,10 +92,12 @@ function Signup() {
                             checked={checked1}
                             onChange={(e) => setChecked1(e.target.checked)}
                         />
-                        <label className="form-check-label" htmlFor="checkDefault1">
-                            I hereby consent and authorize the bank to make inquiries with relevant credit reporting agencies and employment verification services.                        </label>
+                        <label className="form-check-label small text-muted" htmlFor="checkDefault1">
+                            I hereby consent and authorize the bank to make inquiries with relevant credit reporting agencies and employment verification services.
+                        </label>
                     </div>
-                    <div className={`form-check align-self-start text-start ${checked2 ? '' : 'text-muted'}`}>
+
+                    <div className="form-check align-self-start text-start">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -101,25 +105,28 @@ function Signup() {
                             checked={checked2}
                             onChange={(e) => setChecked2(e.target.checked)}
                         />
-                        <label className="form-check-label" htmlFor="checkDefault2">
-                            I authorize the bank to send communications and notifications to me via a messaging service (optional).                        </label>
+                        <label className="form-check-label small text-muted" htmlFor="checkDefault2">
+                            I authorize the bank to send communications and notifications to me via a messaging service (optional).
+                        </label>
                     </div>
                 </div>
-                <div className='position-sticky bottom-0 bg-white pt-3 border-top rounded-bottom'>
+
+                <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom">
                     <div className='d-flex justify-content-between align-items-center'>
                         <div>
-                            <button className='btn' onClick={() => navigate('/')}>
-                                <MdKeyboardArrowLeft />
-                                Back</button>
+                            <button className='btn text-muted' onClick={() => navigate('/')}>
+                                <MdKeyboardArrowLeft /> Back
+                            </button>
                         </div>
                         <div className='position-absolute start-50 translate-middle-x'>
-                            <button className='btn btn-danger' disabled={!(isValid && checked1 && checked2)} onClick={handleSubmit}>Submit</button>
+                            <button className='btn btn-danger' disabled={!(isValid && checked1 && checked2) && !(phone.length === 10)} onClick={handleSubmit}>
+                                Submit
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     )
 }
 
