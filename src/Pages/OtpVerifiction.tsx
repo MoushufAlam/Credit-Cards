@@ -19,6 +19,27 @@ function OtpVerifiction() {
   const [attemptError, setAttemptError] = useState<boolean>(true)
   const [showOtp, setShowOtp] = useState<boolean>(false)
 
+  const handleOtpVerify = async () => {
+    if (otp.length !== 6 || !isValidOtp(otp)) {
+      setIsValid(false)
+      return
+    }
+
+    try {
+      const response = await axios.post('', {
+        phone: phoneNumber,
+        otp: otp
+      })
+      console.log('OTP Verified:', response.data)
+      navigate('/profile')
+    } catch (error) {
+      console.error('OTP validation failed:', error)
+      setAttemptError(false)
+      setFailedAttempts(prev => prev + 1)
+    }
+  }
+  console.log(handleOtpVerify);
+  
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
@@ -161,9 +182,9 @@ function OtpVerifiction() {
         <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom">
           <div className="d-flex justify-content-between align-items-center">
             <div className='start-0'>
-                <button className="btn text-muted" onClick={() => navigate('/')}>
-              <MdKeyboardArrowLeft /> Back
-            </button>
+              <button className="btn text-muted" onClick={() => navigate('/')}>
+                <MdKeyboardArrowLeft /> Back
+              </button>
             </div>
             <div className="position-absolute start-50 translate-middle-x">
               {failedAttempts >= 3 ? (
