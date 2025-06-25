@@ -121,7 +121,7 @@ function OtpVerifiction() {
           <div className="text-center mb-4">
             <img src={activeName} alt="" className="img-fluid rounded shadow" style={{ maxWidth: '200px', height: 'auto' }} />
             <h1 className="h2 mt-3 fw-semibold fs-3">Verify your mobile number</h1>
-            <p className="text-muted">We have sent an SMS with a 6-digit OTP to {hiddenPhoneNumber}</p>
+            <small className="text-muted" >We have sent an SMS with a 6-digit OTP to {hiddenPhoneNumber}</small>
           </div>
 
           <div className={`form-floating ${(!isValid || !attemptError) ? 'mb-0' : 'mb-3'} w-100 position-relative`}>
@@ -168,10 +168,10 @@ function OtpVerifiction() {
 
           {timer > 0 ? (
             <div className="d-flex justify-content-end w-100 mb-2">
-              <small className="text-muted">You can request the OTP via other medium in {timer} sec(s)</small>
+              <small className="text-muted" style={{ fontSize: '0.8rem', color: '#555' }}>You can request the OTP via other medium in {timer} sec(s)</small>
             </div>
           ) : (
-            <div className="d-flex justify-content-end w-100 mb-2">
+            <div className="d-flex justify-content-end w-100 mb-2" >
               <small className="text-muted">Resend OTP via&nbsp;</small>
               <span className="text-primary" role="button" onClick={() => {
                 setTimer(30)

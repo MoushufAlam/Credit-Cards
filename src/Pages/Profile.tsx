@@ -26,11 +26,21 @@ export default function Profile() {
   const [showOtp, setShowOtp] = useState(false)
   const [gender, setGender] = useState('')
   const [emailVerified, setEmailVerified] = useState(false)
+  const [timer, setTimer] = useState<number>(30)
 
   const pan = watch('pan') || ''
   const dob = watch('dob') || ''
   const email = watch('email') || ''
   const otp = watch('otp') || ''
+
+  useEffect(() => {
+    if (emailVerified && timer > 0) {
+      const interval = setInterval(() => {
+        setTimer(prev => prev - 1)
+      }, 1000)
+      return () => clearInterval(interval)
+    }
+  }, [emailVerified, timer])
 
   useEffect(() => {
     document.getElementById('pan')?.focus()
@@ -48,9 +58,10 @@ export default function Profile() {
   const handleEmailBlur = async () => {
     if (errors.email) return
     try {
-      const response = await axios.post('/.netlify/functions/sendEmailOTP', { email: email})
+      const response = await axios.post('/.netlify/functions/sendEmailOTP', { email: email })
       setEmailVerified(true)
-      console.log(response.data);
+      setTimer(30)
+      console.log(response.data)
       clearErrors('email')
     } catch {
       setEmailVerified(false)
@@ -60,8 +71,8 @@ export default function Profile() {
 
   const handleOtpValidation = async () => {
     try {
-      const response = await axios.post('/.netlify/functions/validateEmailOTP', { email:email, otp:otp })
-      console.log(response.data);
+      const response = await axios.post('/.netlify/functions/validateEmailOTP', { email: email, otp: otp })
+      console.log(response.data)
       return true
     } catch {
       setError('otp', { type: 'manual' })
@@ -117,7 +128,7 @@ export default function Profile() {
           {errors.pan && (
             <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
               <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color='red' />
+                <MdOutlineReportGmailerrorred className="me-2" color="red" />
                 <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter a valid PAN</small>
               </div>
             </div>
@@ -142,7 +153,7 @@ export default function Profile() {
           {errors.dob && (
             <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
               <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color='red' />
+                <MdOutlineReportGmailerrorred className="me-2" color="red" />
                 <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter DOB</small>
               </div>
             </div>
@@ -171,49 +182,70 @@ export default function Profile() {
           {errors.email && (
             <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
               <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color='red' />
+                <MdOutlineReportGmailerrorred className="me-2" color="red" />
                 <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter a valid email</small>
               </div>
             </div>
           )}
 
           {emailVerified && (
-            <div className={`form-floating ${errors.otp ? 'mb-0' : 'mb-3'} w-100 position-relative`}>
-              <input
-                id="otp"
-                type={showOtp ? 'text' : 'password'}
-                inputMode="numeric"
-                className="form-control border"
-                placeholder="OTP"
-                maxLength={6}
-                style={{ boxShadow: 'none' }}
-                {...register('otp', {
-                  required: true,
-                  pattern: /^\d{6}$/
-                })}
-                onChange={e => {
-                  const numbersOnly = e.target.value.replace(/\D/g, '')
-                  setValue('otp', numbersOnly)
-                  if (errors.otp) clearErrors('otp')
-                }}
-              />
-              <label htmlFor="otp">OTP</label>
-              <span
-                className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
-                role="button"
-                onClick={() => setShowOtp(v => !v)}
-              >
-                {showOtp ? <FaEyeSlash /> : <FaEye />}
-              </span>
-            </div>
-          )}
-          {emailVerified && errors.otp && (
-            <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
-              <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color='red' />
-                <small style={{ fontSize: '0.8rem', color: '#555' }}>Enter valid OTP</small>
+            <>
+              <div className={`form-floating ${errors.otp ? 'mb-0' : 'mb-3'} w-100 position-relative`}>
+                <input
+                  id="otp"
+                  type={showOtp ? 'text' : 'password'}
+                  inputMode="numeric"
+                  className="form-control border"
+                  placeholder="OTP"
+                  maxLength={6}
+                  style={{ boxShadow: 'none' }}
+                  {...register('otp', {
+                    required: true,
+                    pattern: /^\d{6}$/
+                  })}
+                  onChange={e => {
+                    const numbersOnly = e.target.value.replace(/\D/g, '')
+                    setValue('otp', numbersOnly)
+                    if (errors.otp) clearErrors('otp')
+                  }}
+                />
+                <label htmlFor="otp">OTP</label>
+                <span
+                  className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
+                  role="button"
+                  onClick={() => setShowOtp(v => !v)}
+                >
+                  {showOtp ? <FaEyeSlash /> : <FaEye />}
+                </span>
               </div>
-            </div>
+              {errors.otp && (
+                <div className="card bg-light p-1 rounded w-100 mb-3 border-0">
+                  <div className="d-flex align-items-center">
+                    <MdOutlineReportGmailerrorred className="me-2" color="red" />
+                    <small style={{ fontSize: '0.8rem', color: '#555' }}>Enter valid OTP</small>
+                  </div>
+                </div>
+              )}
+              {timer > 0 ? (
+                <div className="d-flex justify-content-end w-100 mb-2">
+                  <small className="text-muted" style={{ fontSize: '0.8rem' }}>
+                    You can request the OTP via other medium in {timer} sec(s)
+                  </small>
+                </div>
+              ) : (
+                <div className="d-flex justify-content-end w-100 mb-2">
+                  <small className="text-muted" style={{ fontSize: '0.8rem' }}>
+                    Resend OTP via&nbsp;
+                  </small>
+                  <small className="text-primary" role="button" onClick={() => {
+                    handleEmailBlur()
+                    setTimer(30)
+                  }}>
+                    SMS
+                  </small>
+                </div>
+              )}
+            </>
           )}
 
           <div className="mb-3">
