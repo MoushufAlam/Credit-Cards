@@ -25,6 +25,7 @@ function Signup() {
       const response = await axios.post('/.netlify/functions/sendOTP', {
         phone
       })
+
       navigate('/otp-verification', {
         state: {
           phoneNumber: phone,
@@ -39,10 +40,11 @@ function Signup() {
   }
 
   return (
-    <div className="position-fixed container d-flex align-items-center justify-content-center bg-light min-vh-100 min-vw-100 pt-5 mt-5" style={{ minHeight: 'calc(100vh - 3rem)' }}>
-      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 rounded d-flex flex-column" style={{ height: '90vh', maxHeight: '90vh' }}>
+    <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
+      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
         
-        <div className="flex-grow-1 overflow-auto p-4" style={{ maxWidth: '400px', width: '100%', margin: '0 auto' }}>
+        {/* Scrollable Inner Form Area */}
+        <div className="overflow-auto p-4 m-4 w-100" style={{ maxHeight: 'calc(90vh - 100px)', maxWidth: '400px' }}>
           <div className="text-center">
             <img
               src={activeName}
@@ -111,7 +113,7 @@ function Signup() {
           </div>
         </div>
 
-        <div className="bg-white pt-3 pb-5 px-4 border-top w-100">
+        <div className="position-sticky bottom-0 bg-white pt-3 pb-5 px-4 border-top w-100" style={{ zIndex: 10 }}>
           <div className="position-relative w-100">
             <button
               className="btn text-muted position-relative z-1"
@@ -131,6 +133,7 @@ function Signup() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   )
