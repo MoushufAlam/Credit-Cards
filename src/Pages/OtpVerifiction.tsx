@@ -193,7 +193,9 @@ function OtpVerifiction() {
               {failedAttempts >= 3 ? (
                 <button className="btn btn-danger" onClick={() => navigate('/')}>Restart Process</button>
               ) : (
-                <button className="btn btn-danger" disabled={otp.length !== 6} onClick={() => navigate('/profile')}>Verify</button>
+                <button className="btn btn-danger" disabled={otp.length !== 6} onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/profile')}}>Verify</button>
               )}
             </div>
           </div>
