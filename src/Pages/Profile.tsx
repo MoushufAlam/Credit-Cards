@@ -204,6 +204,7 @@ export default function Profile() {
                   className="form-control border"
                   placeholder="OTP"
                   maxLength={6}
+                  value={otp}
                   style={{ boxShadow: 'none' }}
                   {...register('otp', {
                     required: true,

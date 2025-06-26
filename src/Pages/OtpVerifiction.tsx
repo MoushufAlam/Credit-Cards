@@ -128,10 +128,10 @@ function OtpVerifiction() {
               type={showOtp ? 'text' : 'password'}
               className="form-control pe-5"
               id="otp"
+              inputMode="numeric"
               name="otp"
               placeholder="Enter OTP"
               autoComplete="one-time-code"
-              inputMode="numeric"
               maxLength={6}
               value={otp}
               style={{ boxShadow: 'none' }}
