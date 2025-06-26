@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { MdOutlineReportGmailerrorred } from 'react-icons/md'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
+import { setUserProfile } from '../features/userSlice'
 
 interface FormData {
   pan: string
@@ -12,6 +14,7 @@ interface FormData {
 }
 
 export default function Profile() {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -85,6 +88,8 @@ export default function Profile() {
       const valid = await handleOtpValidation()
       if (!valid) return
     }
+
+    dispatch(setUserProfile({ pan: data.pan, dob: data.dob, email: data.email, gender }))
     console.log({ ...data, gender })
   }
 
@@ -93,7 +98,7 @@ export default function Profile() {
   return (
     <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
       <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
-        
+
         <form className="overflow-auto p-4 m-4" style={{ maxHeight: 'calc(90vh - 100px)', maxWidth: '400px' }} onSubmit={handleSubmit(onSubmit)}>
 
           <div className="text-center mb-4">
