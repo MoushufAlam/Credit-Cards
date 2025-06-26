@@ -105,8 +105,9 @@ function OtpVerifiction() {
           </div>
         )}
 
-        {/* replaced <form> with <div> to avoid iOS autofill submission */}
-        <div
+        <form
+          method="post"
+          onSubmit={e => e.preventDefault()}
           className="overflow-auto p-4 m-4"
           style={{
             maxHeight: 'calc(90vh - 100px)',
@@ -180,7 +181,7 @@ function OtpVerifiction() {
               }}>SMS</span>
             </div>
           )}
-        </div>
+        </form>
 
         <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom w-100">
           <div className="d-flex justify-content-between align-items-center">
@@ -193,13 +194,7 @@ function OtpVerifiction() {
               {failedAttempts >= 3 ? (
                 <button className="btn btn-danger" onClick={() => navigate('/')}>Restart Process</button>
               ) : (
-                <button
-                  className="btn btn-danger"
-                  disabled={otp.length !== 6}
-                  onClick={() => navigate('/profile')}
-                >
-                  Verify
-                </button>
+                <button className="btn btn-danger" disabled={otp.length !== 6} onClick={() => navigate('/profile')}>Verify</button>
               )}
             </div>
           </div>
