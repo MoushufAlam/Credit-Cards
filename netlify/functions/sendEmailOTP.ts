@@ -24,8 +24,14 @@ export const handler = async (event: any) => {
     const { email } = JSON.parse(event.body || '{}')
 
     const response = await axios.post(
-      'https://pan-api-final-2led60.5sc6y6-2.usa-e2.cloudhub.io/api/otp/email/generate',
-      { email:email }
+      'https://email-pan-api-proxy-2led60.5sc6y6-2.usa-e2.cloudhub.io/otp/email/generate',
+      { email },
+      {
+        headers: {
+          'client_id': '78778fe63aab428493a507be54fd4820',
+          'client_secret': '8B0bE01F547E452e83E0879a51B6660C',
+        },
+      }
     )
 
     return {
