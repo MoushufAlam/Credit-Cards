@@ -22,7 +22,6 @@ function OtpVerifiction() {
   const [attemptError, setAttemptError] = useState(true)
   const [showOtp, setShowOtp] = useState(false)
 
-  
   // const handleOtpVerify = async () => {
   //   if (otp.length !== 6 || !isValidOtp(otp)) {
   //     setIsValid(false)
@@ -43,8 +42,8 @@ function OtpVerifiction() {
   //   }
   // }
   // console.log(handleOtpVerify);
-  
-  console.log(setFailedAttempts);
+
+  console.log(setFailedAttempts)
 
   useEffect(() => {
     if (timer > 0) {
@@ -106,7 +105,8 @@ function OtpVerifiction() {
           </div>
         )}
 
-        <form
+        {/* replaced <form> with <div> to avoid iOS autofill submission */}
+        <div
           className="overflow-auto p-4 m-4"
           style={{
             maxHeight: 'calc(90vh - 100px)',
@@ -180,7 +180,7 @@ function OtpVerifiction() {
               }}>SMS</span>
             </div>
           )}
-        </form>
+        </div>
 
         <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom w-100">
           <div className="d-flex justify-content-between align-items-center">
@@ -193,9 +193,13 @@ function OtpVerifiction() {
               {failedAttempts >= 3 ? (
                 <button className="btn btn-danger" onClick={() => navigate('/')}>Restart Process</button>
               ) : (
-                <button className="btn btn-danger" disabled={otp.length !== 6} onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/profile')}}>Verify</button>
+                <button
+                  className="btn btn-danger"
+                  disabled={otp.length !== 6}
+                  onClick={() => navigate('/profile')}
+                >
+                  Verify
+                </button>
               )}
             </div>
           </div>
