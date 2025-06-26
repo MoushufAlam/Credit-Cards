@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { isValidOtp } from '../utils/ValidateOtp'
 import { MdKeyboardArrowLeft, MdOutlineReportGmailerrorred } from 'react-icons/md'
 import { CgDanger } from 'react-icons/cg'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import type { RootState } from '../store'
 import axios from 'axios'
 
 function OtpVerifiction() {
   const navigate = useNavigate()
-  const { state } = useLocation()
-  const { phoneNumber, activeName } = (state as { phoneNumber: string; activeName: string }) || {}
+  const phoneNumber = useSelector((state: RootState) => state.user.phoneNumber)
+  const activeName = useSelector((state: RootState) => state.user.activeName)
+
   const hiddenPhoneNumber = phoneNumber?.replace(/^(\d{2})\d{4}(\d{4})$/, '$1****$2')
 
-  const [otp, setOtp] = useState<string>('')
-  const [isValid, setIsValid] = useState<boolean>(true)
-  const [timer, setTimer] = useState<number>(30)
-  const [failedAttempts, setFailedAttempts] = useState<number>(0)
-  const [attemptError, setAttemptError] = useState<boolean>(true)
-  const [showOtp, setShowOtp] = useState<boolean>(false)
+  const [otp, setOtp] = useState('')
+  const [isValid, setIsValid] = useState(true)
+  const [timer, setTimer] = useState(30)
+  const [failedAttempts, setFailedAttempts] = useState(0)
+  const [attemptError, setAttemptError] = useState(true)
+  const [showOtp, setShowOtp] = useState(false)
 
-
+  
   // const handleOtpVerify = async () => {
   //   if (otp.length !== 6 || !isValidOtp(otp)) {
   //     setIsValid(false)
@@ -45,9 +48,7 @@ function OtpVerifiction() {
 
   useEffect(() => {
     if (timer > 0) {
-      const interval = setInterval(() => {
-        setTimer(prev => prev - 1)
-      }, 1000)
+      const interval = setInterval(() => setTimer(prev => prev - 1), 1000)
       return () => clearInterval(interval)
     }
   }, [timer])
@@ -71,10 +72,7 @@ function OtpVerifiction() {
           setAttemptError(true)
           ac.abort()
         })
-        .catch((err: any) => {
-          ac.abort()
-          console.log('WebOTP Error:', err)
-        })
+        .catch(() => ac.abort())
     }
   }, [])
 
@@ -96,7 +94,6 @@ function OtpVerifiction() {
   return (
     <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
       <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
-
         {failedAttempts >= 3 && (
           <div className="position-absolute top-0 start-0 w-100 h-100 row m-0 align-items-center p-5 justify-content-center" style={{ zIndex: 1, pointerEvents: 'none' }}>
             <div className="bg-light row align-items-center rounded p-2">
@@ -170,7 +167,7 @@ function OtpVerifiction() {
 
           {timer > 0 ? (
             <div className="d-flex justify-content-end w-100 mb-2">
-              <small className="text-muted" style={{ fontSize: '0.8rem', color: '#555' }}>
+              <small className="text-muted" style={{ fontSize: '0.8rem' }}>
                 You can request the OTP via other medium in {timer} sec(s)
               </small>
             </div>
@@ -201,7 +198,6 @@ function OtpVerifiction() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )

@@ -5,12 +5,20 @@ interface UserState {
   phoneNumber: string
   activeName: string
   compareList: number[]
+  pan: string
+  dob: string
+  email: string
+  gender: string
 }
 
 const initialState: UserState = {
   phoneNumber: '',
   activeName: '',
-  compareList: []
+  compareList: [],
+  pan: '',
+  dob: '',
+  email: '',
+  gender: ''
 }
 
 const userSlice = createSlice({
@@ -24,9 +32,22 @@ const userSlice = createSlice({
       state.phoneNumber = action.payload.phoneNumber
       state.activeName = action.payload.activeName
     },
+    setUserProfile: (
+      state,
+      action: PayloadAction<{ pan: string; dob: string; email: string; gender: string }>
+    ) => {
+      state.pan = action.payload.pan
+      state.dob = action.payload.dob
+      state.email = action.payload.email
+      state.gender = action.payload.gender
+    },
     clearUserData: (state) => {
       state.phoneNumber = ''
       state.activeName = ''
+      state.pan = ''
+      state.dob = ''
+      state.email = ''
+      state.gender = ''
     },
     toggleCompare: (state, action: PayloadAction<number>) => {
       const id = action.payload
@@ -44,6 +65,7 @@ const userSlice = createSlice({
 
 export const {
   setUserData,
+  setUserProfile,
   clearUserData,
   toggleCompare,
   clearCompare
