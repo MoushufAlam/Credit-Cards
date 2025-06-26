@@ -41,10 +41,8 @@ function OtpVerifiction() {
   //     setFailedAttempts(prev => prev + 1)
   //   }
   // }
-  // console.log(handleOtpVerify);
-
-  console.log(setFailedAttempts)
-
+  console.log(setFailedAttempts);
+  
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => setTimer(prev => prev - 1), 1000)
@@ -90,6 +88,15 @@ function OtpVerifiction() {
     }
   }
 
+  const handleVerifyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    if (otp.length !== 6 || !isValidOtp(otp)) {
+      setIsValid(false)
+      return
+    }
+    navigate('/profile')
+  }
+
   return (
     <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
       <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
@@ -106,8 +113,8 @@ function OtpVerifiction() {
         )}
 
         <form
-          method="post"
-          onSubmit={e => e.preventDefault()}
+          action=""
+          noValidate
           className="overflow-auto p-4 m-4"
           style={{
             maxHeight: 'calc(90vh - 100px)',
@@ -194,7 +201,7 @@ function OtpVerifiction() {
               {failedAttempts >= 3 ? (
                 <button className="btn btn-danger" onClick={() => navigate('/')}>Restart Process</button>
               ) : (
-                <button className="btn btn-danger" disabled={otp.length !== 6} onClick={() => navigate('/profile')}>Verify</button>
+                <button className="btn btn-danger" disabled={otp.length !== 6} onClick={handleVerifyClick}>Verify</button>
               )}
             </div>
           </div>
