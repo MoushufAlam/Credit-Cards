@@ -67,6 +67,7 @@ function OtpVerifiction() {
           setOtp(otp.code)
           setIsValid(true)
           setAttemptError(true)
+          navigate('./profile')
           ac.abort()
         })
         .catch(() => ac.abort())
