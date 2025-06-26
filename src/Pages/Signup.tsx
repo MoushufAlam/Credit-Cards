@@ -1,49 +1,37 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { isValidPhoneNumber } from '../utils/ValidateNumber'
-import { MdOutlineReportGmailerrorred, MdKeyboardArrowLeft } from "react-icons/md"
+import { MdOutlineReportGmailerrorred, MdKeyboardArrowLeft } from 'react-icons/md'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootState } from '../store'
+import { setUserData } from '../features/userSlice'
 
 function Signup() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const handleError = () => setIsValid(isValidPhoneNumber(phone))
   const [isValid, setIsValid] = useState(true)
-  const { state } = useLocation()
-  const { activeName } = (state as { activeName?: string }) || {}
+
+  const { activeName } = useSelector((state: RootState) => state.user)
 
   const [checked1, setChecked1] = useState(false)
   const [checked2, setChecked2] = useState(false)
   const [phone, setPhone] = useState('')
 
-  useEffect(() => {
-    const input = document.getElementById('floatingInput')
-    input?.focus()
-  }, [])
-
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/.netlify/functions/sendOTP', {
-        phone
-      })
-
-      navigate('/otp-verification', {
-        state: {
-          phoneNumber: phone,
-          activeName: activeName
-        }
-      })
-
-      console.log(response.data)
+      await axios.post('/.netlify/functions/sendOTP', { phone })
+      dispatch(setUserData({ phoneNumber: phone, activeName: activeName || '' }))
+      navigate('/otp-verification')
     } catch (error) {
-      console.log("Error is:", error)
+      console.log('Error is:', error)
     }
   }
 
   return (
     <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
       <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
-        
-        {/* Scrollable Inner Form Area */}
         <div className="overflow-auto p-4 m-4 w-100" style={{ maxHeight: 'calc(90vh - 100px)', maxWidth: '400px' }}>
           <div className="text-center">
             <img
@@ -80,8 +68,10 @@ function Signup() {
           {!isValid && (
             <div className="card bg-light p-1 border-0 rounded w-100 mb-3">
               <div className="d-flex align-items-center">
-                <MdOutlineReportGmailerrorred className="me-2" color='red' />
-                <small style={{ fontSize: '0.8rem', color: '#555' }}>Please enter a valid phone number</small>
+                <MdOutlineReportGmailerrorred className="me-2" color="red" />
+                <small style={{ fontSize: '0.8rem', color: '#555' }}>
+                  Please enter a valid phone number
+                </small>
               </div>
             </div>
           )}
@@ -115,10 +105,7 @@ function Signup() {
 
         <div className="position-sticky bottom-0 bg-white pt-3 pb-5 px-4 border-top w-100" style={{ zIndex: 10 }}>
           <div className="position-relative w-100">
-            <button
-              className="btn text-muted position-relative z-1"
-              onClick={() => navigate('/')}
-            >
+            <button className="btn text-muted position-relative z-1" onClick={() => navigate('/')}>
               <MdKeyboardArrowLeft /> Back
             </button>
 
@@ -133,7 +120,6 @@ function Signup() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )

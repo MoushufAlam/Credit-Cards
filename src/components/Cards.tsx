@@ -1,6 +1,8 @@
 import gradients from './gradients.json'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserData, toggleCompare } from '../features/userSlice'
+import type { RootState } from '../store'
 
 type Feature = {
   icon: string
@@ -21,25 +23,18 @@ type Props = {
 
 function Cards({ data }: Props) {
   const navigate = useNavigate()
-  const [compareList, setCompareList] = useState<number[]>([])
-
-  const toggleCompare = (id: number) => {
-    setCompareList(prev =>
-      prev.includes(id)
-        ? prev.filter(item => item !== id)
-        : [...prev, id]
-    )
-  }
+  const dispatch = useDispatch()
+  const compareList = useSelector((state: RootState) => state.user.compareList)
 
   const handleCompareClick = () => {
     if (compareList.length >= 2) {
-      navigate('/compare', { state: { selectedIds: compareList } })
+      navigate('/compare')
     }
   }
 
   return (
     <>
-      {data.map((card: CardType, index: number) => (
+      {data.map((card, index) => (
         <div
           key={card.id}
           className="card border-0 rounded mt-5 p-5"
@@ -53,7 +48,7 @@ function Cards({ data }: Props) {
               <h2 className="fs-1 fw-semibold lh-base">{card.title}</h2>
 
               <div className="d-flex flex-nowrap overflow-auto gap-3 mt-3">
-                {card.features.map((feat: Feature, i: number) => (
+                {card.features.map((feat, i) => (
                   <div key={i} className="d-flex flex-column align-items-center text-center gap-2">
                     <img
                       src={feat.icon}
@@ -70,14 +65,15 @@ function Cards({ data }: Props) {
                 <button
                   className="btn btn-danger"
                   onClick={() => {
-                    navigate('/signup', { state: { activeName: card.images } })
+                    dispatch(setUserData({ phoneNumber: '', activeName: card.images || '' }))
+                    navigate('/signup')
                   }}
                 >
                   Apply Now
                 </button>
                 <button
                   className={`btn ${compareList.includes(card.id) ? 'btn-secondary' : 'btn-outline-secondary'}`}
-                  onClick={() => toggleCompare(card.id)}
+                  onClick={() => dispatch(toggleCompare(card.id))}
                 >
                   {compareList.includes(card.id) ? 'Remove from Compare' : 'Add To Compare'}
                 </button>
