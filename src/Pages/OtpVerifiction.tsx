@@ -12,21 +12,22 @@ function OtpVerifiction() {
   const navigate = useNavigate()
   const phoneNumber = useSelector((state: RootState) => state.user.phoneNumber)
   const activeName = useSelector((state: RootState) => state.user.activeName)
+
   const hiddenPhoneNumber = phoneNumber?.replace(/^(\d{2})\d{4}(\d{4})$/, '$1****$2')
 
-  const [otp, setOtp] = useState<string>('')
-  const [isValid, setIsValid] = useState<boolean>(true)
-  const [timer, setTimer] = useState<number>(30)
-  const [failedAttempts, setFailedAttempts] = useState<number>(0)
-  const [attemptError, setAttemptError] = useState<boolean>(true)
-  const [showOtp, setShowOtp] = useState<boolean>(false)
+  const [otp, setOtp] = useState('')
+  const [isValid, setIsValid] = useState(true)
+  const [timer, setTimer] = useState(30)
+  const [failedAttempts, setFailedAttempts] = useState(0)
+  const [attemptError, setAttemptError] = useState(true)
+  const [showOtp, setShowOtp] = useState(false)
 
   // const handleOtpVerify = async () => {
   //   if (otp.length !== 6 || !isValidOtp(otp)) {
   //     setIsValid(false)
   //     return
   //   }
-  //
+
   //   try {
   //     const response = await axios.post('', {
   //       phone: phoneNumber,
@@ -40,8 +41,9 @@ function OtpVerifiction() {
   //     setFailedAttempts(prev => prev + 1)
   //   }
   // }
+  // console.log(handleOtpVerify);
+
   console.log(setFailedAttempts);
-  
 
   useEffect(() => {
     if (timer > 0) {
@@ -90,21 +92,11 @@ function OtpVerifiction() {
 
   return (
     <div className="container d-flex align-items-center justify-content-center bg-light min-vh-100 pt-5 mt-5 min-vw-100">
-      <div
-        className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column"
-        style={{ maxHeight: '90vh' }}
-      >
+      <div className="col-12 col-md-8 col-lg-5 bg-white p-0 m-0 align-items-center rounded d-flex flex-column" style={{ maxHeight: '90vh' }}>
         {failedAttempts >= 3 && (
-          <div
-            className="position-absolute top-0 start-0 w-100 h-100 row m-0 align-items-center p-5 justify-content-center"
-            style={{ zIndex: 1, pointerEvents: 'none' }}
-          >
+          <div className="position-absolute top-0 start-0 w-100 h-100 row m-0 align-items-center p-5 justify-content-center" style={{ zIndex: 1, pointerEvents: 'none' }}>
             <div className="bg-light row align-items-center rounded p-2">
-              <CgDanger
-                className="col-3 fs-lg"
-                color="red"
-                style={{ width: '50px', height: '50px' }}
-              />
+              <CgDanger className="col-3 fs-lg" color="red" style={{ width: '50px', height: '50px' }} />
               <div className="col-9 text-start fw-bold">
                 Uh oh!<br />
                 You have exceeded the maximum number of OTP request attempts. Please try after sometime.
@@ -114,8 +106,8 @@ function OtpVerifiction() {
         )}
 
         <form
-          onSubmit={e => e.preventDefault()}
           className="overflow-auto p-4 m-4"
+          action="javascript:void(0)"
           style={{
             maxHeight: 'calc(90vh - 100px)',
             maxWidth: '400px',
@@ -126,27 +118,17 @@ function OtpVerifiction() {
           }}
         >
           <div className="text-center mb-4">
-            <img
-              src={activeName}
-              alt=""
-              className="img-fluid rounded shadow"
-              style={{ maxWidth: '200px', height: 'auto' }}
-            />
+            <img src={activeName} alt="" className="img-fluid rounded shadow" style={{ maxWidth: '200px', height: 'auto' }} />
             <h1 className="h2 mt-3 fw-semibold fs-3">Verify your mobile number</h1>
-            <small className="text-muted">
-              We have sent an SMS with a 6-digit OTP to {hiddenPhoneNumber}
-            </small>
+            <small className="text-muted">We have sent an SMS with a 6-digit OTP to {hiddenPhoneNumber}</small>
           </div>
 
-          <div
-            className={`form-floating ${
-              !isValid || !attemptError ? 'mb-0' : 'mb-3'
-            } w-100 position-relative`}
-          >
+          <div className={`form-floating ${(!isValid || !attemptError) ? 'mb-0' : 'mb-3'} w-100 position-relative`}>
             <input
-              id="otp"
               type={showOtp ? 'text' : 'password'}
               className="form-control pe-5"
+              id="otp"
+              name="otp"
               placeholder="Enter OTP"
               autoComplete="one-time-code"
               inputMode="numeric"
@@ -185,26 +167,17 @@ function OtpVerifiction() {
 
           {timer > 0 ? (
             <div className="d-flex justify-content-end w-100 mb-2">
-              <small
-                className="text-muted"
-                style={{ fontSize: '0.8rem', color: '#555' }}
-              >
+              <small className="text-muted" style={{ fontSize: '0.8rem' }}>
                 You can request the OTP via other medium in {timer} sec(s)
               </small>
             </div>
           ) : (
             <div className="d-flex justify-content-end w-100 mb-2">
               <small className="text-muted">Resend OTP via&nbsp;</small>
-              <span
-                className="text-primary"
-                role="button"
-                onClick={() => {
-                  setTimer(30)
-                  handleSubmit()
-                }}
-              >
-                SMS
-              </span>
+              <span className="text-primary" role="button" onClick={() => {
+                setTimer(30)
+                handleSubmit()
+              }}>SMS</span>
             </div>
           )}
         </form>
@@ -212,29 +185,15 @@ function OtpVerifiction() {
         <div className="position-sticky bottom-0 bg-white pt-3 mb-4 pb-4 border-top rounded-bottom w-100">
           <div className="d-flex justify-content-between align-items-center">
             <div>
-              <button
-                className="btn text-muted"
-                onClick={() => navigate('/')}
-              >
+              <button className="btn text-muted" onClick={() => navigate('/')}>
                 <MdKeyboardArrowLeft /> Back
               </button>
             </div>
             <div className="position-absolute start-50 translate-middle-x">
               {failedAttempts >= 3 ? (
-                <button
-                  className="btn btn-danger"
-                  onClick={() => navigate('/')}
-                >
-                  Restart Process
-                </button>
+                <button className="btn btn-danger" onClick={() => navigate('/')}>Restart Process</button>
               ) : (
-                <button
-                  className="btn btn-danger"
-                  disabled={otp.length !== 6}
-                  onClick={() => navigate('/profile')}
-                >
-                  Verify
-                </button>
+                <button className="btn btn-danger" disabled={otp.length !== 6} onClick={() => navigate('/profile')}>Verify</button>
               )}
             </div>
           </div>
