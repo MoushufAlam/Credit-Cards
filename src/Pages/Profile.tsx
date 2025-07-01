@@ -5,6 +5,7 @@ import { MdOutlineReportGmailerrorred } from 'react-icons/md'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import { setUserProfile } from '../features/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 interface FormData {
   pan: string
@@ -35,6 +36,8 @@ export default function Profile() {
   const dob = watch('dob') || ''
   const email = watch('email') || ''
   const otp = watch('otp') || ''
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (emailVerified && timer > 0) {
@@ -91,6 +94,7 @@ export default function Profile() {
 
     dispatch(setUserProfile({ pan: data.pan, dob: data.dob, email: data.email, gender }))
     console.log({ ...data, gender })
+    navigate('/Additional-details')
   }
 
   const allFilled = pan && dob && email && gender && (!emailVerified || otp)

@@ -14,6 +14,7 @@ const Signup = lazy(() => import('./Pages/Signup.tsx'))
 const OtpVerifiction = lazy(() => import('./Pages/OtpVerifiction.tsx'))
 const Comparison = lazy(() => import('./Pages/Comparison.tsx'))
 const Profile = lazy(() => import('./Pages/Profile.tsx'))
+const AdditionalDetails = lazy(()=> import('./Pages/AdditionalDetails.tsx'))
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="otp-verification" element={<ProtectedRoute><OtpVerifiction /></ProtectedRoute>} />
             <Route path="compare" element={<ProtectedRoute><Comparison /></ProtectedRoute>} />
             <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="Additional-Details" element={<ProtectedRoute><AdditionalDetails/></ProtectedRoute>}/>
           </Route>
         </Routes>
       </Suspense>
