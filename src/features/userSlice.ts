@@ -9,6 +9,10 @@ interface UserState {
   dob: string
   email: string
   gender: string
+  personalName: string
+  motherName: string
+  fatherName: string
+  maritalStatus: string
 }
 
 const initialState: UserState = {
@@ -18,7 +22,11 @@ const initialState: UserState = {
   pan: '',
   dob: '',
   email: '',
-  gender: ''
+  gender: '',
+  personalName: '',
+  motherName: '',
+  fatherName: '',
+  maritalStatus: ''
 }
 
 const userSlice = createSlice({
@@ -41,6 +49,20 @@ const userSlice = createSlice({
       state.email = action.payload.email
       state.gender = action.payload.gender
     },
+    setAdditionalDetails: (
+      state,
+      action: PayloadAction<{
+        personalName: string
+        motherName: string
+        fatherName: string
+        maritalStatus: string
+      }>
+    ) => {
+      state.personalName = action.payload.personalName
+      state.motherName = action.payload.motherName
+      state.fatherName = action.payload.fatherName
+      state.maritalStatus = action.payload.maritalStatus
+    },
     clearUserData: (state) => {
       state.phoneNumber = ''
       state.activeName = ''
@@ -48,6 +70,10 @@ const userSlice = createSlice({
       state.dob = ''
       state.email = ''
       state.gender = ''
+      state.personalName = ''
+      state.motherName = ''
+      state.fatherName = ''
+      state.maritalStatus = ''
     },
     toggleCompare: (state, action: PayloadAction<number>) => {
       const id = action.payload
@@ -66,6 +92,7 @@ const userSlice = createSlice({
 export const {
   setUserData,
   setUserProfile,
+  setAdditionalDetails,
   clearUserData,
   toggleCompare,
   clearCompare

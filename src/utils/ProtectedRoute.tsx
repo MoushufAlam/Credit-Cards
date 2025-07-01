@@ -1,17 +1,24 @@
 import { useEffect, type ReactNode } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {
+  useLocation,
+  useNavigate,
+  useNavigationType
+} from 'react-router-dom'
 
-export default function ProtectedRoute({ children }: { children: ReactNode }) {
+export default function ProtectedRoute({
+  children
+}: {
+  children: ReactNode
+}) {
   const location = useLocation()
   const navigate = useNavigate()
+  const navType = useNavigationType()
 
   useEffect(() => {
-    if (performance.navigation.type === 1 || location.key === 'default') {
-      if (location.pathname !== '/') {
-        navigate('/', { replace: true })
-      }
+    if (navType === 'POP' && location.pathname !== '/') {
+      navigate('/', { replace: true })
     }
-  }, [location, navigate])
+  }, [navType, location.pathname, navigate])
 
   return <>{children}</>
 }

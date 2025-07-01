@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { MdOutlineReportGmailerrorred } from 'react-icons/md'
+import { useDispatch } from 'react-redux'
+import { setAdditionalDetails } from '../features/userSlice'
 
 interface FormData {
   personalName: string
@@ -9,6 +11,7 @@ interface FormData {
 }
 
 export default function AdditionalDetails() {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -31,6 +34,7 @@ export default function AdditionalDetails() {
   }, [])
 
   const onSubmit = (data: FormData) => {
+    dispatch(setAdditionalDetails({ ...data, maritalStatus }))
     console.log({ ...data, maritalStatus })
   }
 
