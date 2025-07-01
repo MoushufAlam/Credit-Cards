@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isValidPhoneNumber } from '../utils/ValidateNumber'
 import { MdOutlineReportGmailerrorred, MdKeyboardArrowLeft } from 'react-icons/md'
-// import axios from 'axios'
+import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../store'
 import { setUserData } from '../features/userSlice'
@@ -19,9 +19,9 @@ function Signup() {
   const [checked2, setChecked2] = useState(false)
   const [phone, setPhone] = useState('')
 
-  const handleSubmit =  () => {
+  const handleSubmit = async () => {
     try {
-      // await axios.post('/.netlify/functions/sendOTP', { phone })
+      await axios.post('/.netlify/functions/sendOTP', { phone })
       dispatch(setUserData({ phoneNumber: phone, activeName: activeName || '' }))
       navigate('/otp-verification')
     } catch (error) {
