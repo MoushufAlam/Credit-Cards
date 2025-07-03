@@ -46,12 +46,13 @@ export default function AdditionalDetails() {
         { bcifValue: personalName }
       )
       const scoreStr =
-        data?.response?.data?.response?.losCheck?.score
+      data?.response?.data?.response?.losCheck?.score
       const score = scoreStr ? parseInt(scoreStr, 10) : 0
+      console.log(score);
       if (score < 65) {
         setError('personalName', {
           type: 'manual',
-          message: 'Name match score too low'
+          message: 'Name is Invalid'
         })
       } else {
         clearErrors('personalName')
